@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{navigation :: link}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div th:include="~{navigation :: nav}"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</h2>
+            <br>
+            <div class="media" th:each="question :${pageInfo.list}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded" th:src="${question.user.avatarUrl}" src="https://avatars1.githubusercontent.com/u/64174046?v=4" alt="...">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a th:href="@{/question/{id}(id=${question.id})}"><h4 class="media-heading" th:text="${question.title}">如何快速入门SpringBoot</h4></a>
+                    <span th:text="${question.description}">点击观看哔哩哔哩上面的视频</span><br>
+                    <span class="text-desc"><span th:text="${question.commentCount == null} ? 0"></span>个回复 <span th:text="${question.viewCount == null} ? 0"></span>次浏览 <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd hh-mm')}">小时前</span></span>
+                </div>
+            </div>
+            <!--<nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li th:if="${pagination.hasFirst}">
+                        <a href="#" th:href="@{/(page=1)}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pagination.hasPrevious}">
+                        <a href="#" th:href="@{/(page=${pagination.page-1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:class="${pagination.page == page} ? 'active'" th:each="page : ${pagination.pages}">
+                        <a th:href="@{/(page=${page})}" th:text="${page}" href="#">1</a>
+                    </li>
+
+                    <li th:if="${pagination.hasNext}">
+                        <a href="#" th:href="@{/(page=${pagination.page+1})}" aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pagination.hasEnd}">
+                        <a href="#" th:href="@{/(page=${pagination.totalPage})}" aria-label="Next">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>-->
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <!--<li th:if="">
+                        <a href="#" th:href="@{/(page=1)}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>-->
+                    <li th:if="${pageInfo.hasPreviousPage}">
+                        <a href="#" th:href="@{/(page=${pageInfo.prePage})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:class="${pageInfo.pageNum == page} ? 'active'" th:each="page : ${pageInfo.navigatepageNums}">
+                        <a th:href="@{/(page=${page})}" th:text="${page}" href="#">1</a>
+                    </li>
+
+                    <li th:if="${pageInfo.hasNextPage}">
+                        <a href="#" th:href="@{/(page=${pageInfo.nextPage})}" aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <!--<li th:if="${pagination.hasEnd}">
+                        <a href="#" th:href="@{/(page=${pagination.totalPage})}" aria-label="Next">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>-->
+                </ul>
+            </nav>
+
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>热门</h3>
+        </div>
+    </div>
+</div>
+</body>
+</html>

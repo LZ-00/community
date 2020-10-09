@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.dao.QuestionMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into question (title,description,gmt_create,gmt_modified,creator,
+        view_count,like_count,comment_count,tag)
+        values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},
+        #{viewCount},#{likeCount},#{commentCount},#{tag})
+    </insert>
+
+    <resultMap id="quesAddUser" type="question">
+        <id column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <association property="user" select="com.community.dao.UserMapper.getUserById" column="creator"/>
+    </resultMap>
+
+    <select id="listQuestion" resultMap="quesAddUser">
+        select * from question limit #{offset},#{size}
+    </select>
+    <select id="list" resultMap="quesAddUser">
+        select * from question
+    </select>
+
+    <select id="listByUserId" resultMap="quesAddUser">
+        select * from question where creator = #{id}
+    </select>
+
+    <select id="getById" resultMap="quesAddUser">
+        select * from question where id = #{id}
+    </select>
+
+    <update id="update">
+        update question set title = #{title},description = #{description},gmt_modified=#{gmtModified},tag = #{tag}
+        where
+        id = #{id}
+    </update>
+
+</mapper>

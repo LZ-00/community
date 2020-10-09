@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{navigation :: link}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div th:include="~{navigation :: nav}"></div>
+<div class="container-fluid main">
+    <div class="row profile">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2 th:text="${sectionName}" ></h2>
+            <br>
+            <div class="media" th:each="question :${pageInfo.list}">
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span class="text-desc"><span th:text="${question.commentCount == null} ? 0"></span>个回复 <span th:text="${question.viewCount == null} ? 0"></span>次浏览 <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd hh-mm')}">小时前</span></span>
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li th:if="${pageInfo.hasPreviousPage}">
+                        <a href="#" th:href="@{/profile/{section}/(section=${section},page=${pageInfo.prePage})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:class="${pageInfo.pageNum == page} ? 'active'" th:each="page : ${pageInfo.navigatepageNums}">
+                        <a th:href="@{/profile/{section}/(section=${section},page=${page})}" th:text="${page}" href="#">1</a>
+                    </li>
+
+                    <li th:if="${pageInfo.hasNextPage}">
+                        <a href="#" th:href="@{/profile/{section}/(section=${section},page=${pageInfo.nextPage})}" aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 section">
+            <div class="list-group">
+                <a href="#" th:href="@{/profile/questions}" th:classappend="${section == 'questions'} ? 'active'" class="list-group-item">我的问题</a>
+                <a href="#" th:href="@{/profile/replies}" th:classappend="${section == 'replies'} ? 'active'" class="list-group-item">最新回复<span class="badge">14</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
